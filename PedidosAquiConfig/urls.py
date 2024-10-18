@@ -23,9 +23,9 @@ from drf_yasg import openapi
 #añadiendo las urls al documentacion swagger
 schema_view = get_schema_view(
    openapi.Info(
-      title="API de SuperPrice",
+      title="API de Pedidos Aqui",
       default_version='v1',
-      description="Documentación de la API para SuperPrice",
+      description="Documentación de la API para Pedidos Aqui",
       terms_of_service="https://www.google.com/policies/terms/",
       contact=openapi.Contact(email="adrian.aguilera23@itca.edu.sv"),
       license=openapi.License(name="BSD License"),
