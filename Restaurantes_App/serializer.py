@@ -4,7 +4,7 @@ from rest_framework import serializers
 class RestaurantesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Restaurantes
-        fields = ['nombre', 'ubicacion', 'descripcion', 'telefono', 'tipoCocina', 'puntaje', 'imagen']
+        fields = '__all__'
 
 class PedidosSerializer(serializers.ModelSerializer):
     class Meta:

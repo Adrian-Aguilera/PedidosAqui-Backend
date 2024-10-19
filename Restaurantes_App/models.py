@@ -8,7 +8,7 @@ class Restaurantes(models.Model):
     telefono = models.CharField(max_length=255, help_text='Telefono del restaurante')
     tipoCocina = models.CharField(max_length=255, help_text='Tipo de cocina del restaurante')
     puntaje = models.IntegerField(help_text='Puntaje del restaurante')
-    imagen = models.CharField(max_length=255, help_text='Imagen del restaurante')
+    imagen = models.FileField(upload_to='images/', blank=True, null=True)
 
     def __str__(self):
         return self.nombre
