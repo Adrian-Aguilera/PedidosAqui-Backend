@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Login_App',
+    'Restaurantes_App',
     'corsheaders',
     'rest_framework',
     'sslserver',
