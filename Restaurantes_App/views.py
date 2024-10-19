@@ -45,14 +45,15 @@ class RestaurantesMethods(APIView):
             print(data)
             try:
                 restaurante = Restaurantes.objects.get(id=data['id'])
-                serializer = RestaurantesSerializer(restaurante)
-                if serializer.is_valid():
-                    serializer.delete()
-                    return JsonResponse({'data': 'Restaurante eliminado exitosamente'})
-                else:
-                    return JsonResponse({'error': 'Error al eliminar el restaurante'})
+                restaurante.delete()
+                return JsonResponse({'data': {
+                    "mensaje": "Restaurante eliminado exitosamente",
+                    "nombre": restaurante.nombre,
+                }})
             except Exception as e:
-                return JsonResponse({'error': f'Delete restaurant error: {str(e)}'})
+                return JsonResponse({'error': {
+                    "mensaje": f'{str(e)}',
+                }})
         else:
             return JsonResponse({'error': 'Method not allowed'})
 
