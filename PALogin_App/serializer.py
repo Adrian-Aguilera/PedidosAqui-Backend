@@ -4,7 +4,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth import authenticate
 
 '''Crear serializers para los usuarios'''
-class UsuariosSerializer(TokenObtainPairSerializer):
+class UsuariosSerializerAutenticado(TokenObtainPairSerializer):
     correo = serializers.CharField(required=True)
 
     def validate(self, attrs):
@@ -33,3 +33,15 @@ class UsuariosSerializer(TokenObtainPairSerializer):
                 raise serializers.ValidationError(f'Error: {str(e)}')
         else:
             raise serializers.ValidationError('Falta campo correo o password')
+
+class UsuariosSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Usuarios
+        fields = ['nombre', 'correo', 'apellido', 'password']
+
+    def create(self, validated_data):
+        password = validated_data.get('password')
+        instancia = Usuarios(**validated_data)
+        instancia.set_password(password)
+        instancia.save()
+        return instancia

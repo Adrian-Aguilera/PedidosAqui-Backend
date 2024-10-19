@@ -7,21 +7,20 @@ from dotenv import load_dotenv
 from asgiref.sync import sync_to_async, async_to_sync
 import json
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .serializer import UsuariosSerializer
+from .serializer import UsuariosSerializerAutenticado, UsuariosSerializer
 load_dotenv(override=True)
 
 # Create your views here.
 
 class LoginMethod(APIView):
-    permission_classes = [IsAuthenticated]
     @api_view(['POST'])
-    def login(self, request):
+    def login(request):
         if request.method == 'POST':
             data = json.loads(request.body)
-            correo = data['email']
+            correo = data['correo']
             password = data['password']
             try:
-                serializer = UsuariosSerializer()
+                serializer = UsuariosSerializerAutenticado()
                 tokensObtenidos = serializer.validate(attrs={'correo': correo, 'password': password})
                 return JsonResponse({"data":{
                     "refresh": tokensObtenidos['refresh'],
@@ -35,5 +34,20 @@ class LoginMethod(APIView):
         else:
             return JsonResponse({'error': 'Method not allowed'})
 
+    @api_view(['POST'])
+    def CreateCuenta(request):
+        if request.method == 'POST':
+            data = request.data
+            try:
+                serializer = UsuariosSerializer(data=data)
+                if serializer.is_valid():
+                    serializer.save()
+                    return JsonResponse({'data': 'Cuenta creada exitosamente'})
+                else:
+                    return JsonResponse({'error': 'Error al crear la cuenta'})
+            except Exception as e:
+                return JsonResponse({'error': f'Create account error: {str(e)}'})
+        else:
+            return JsonResponse({'error': 'Method not allowed'})
 class PerfilTokenObtainPairView(TokenObtainPairView):
-    serializer_class = UsuariosSerializer
+    serializer_class = UsuariosSerializerAutenticado
