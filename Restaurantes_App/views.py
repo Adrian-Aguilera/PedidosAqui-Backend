@@ -37,6 +37,25 @@ class RestaurantesMethods(APIView):
         else:
             return JsonResponse({'error': 'Method not allowed'})
 
+    @api_view(['POST'])
+    @permission_classes([IsAuthenticated])
+    def restaurantesEliminar(request):
+        if request.method == 'POST':
+            data = json.loads(request.body)
+            print(data)
+            try:
+                restaurante = Restaurantes.objects.get(id=data['id'])
+                serializer = RestaurantesSerializer(restaurante)
+                if serializer.is_valid():
+                    serializer.delete()
+                    return JsonResponse({'data': 'Restaurante eliminado exitosamente'})
+                else:
+                    return JsonResponse({'error': 'Error al eliminar el restaurante'})
+            except Exception as e:
+                return JsonResponse({'error': f'Delete restaurant error: {str(e)}'})
+        else:
+            return JsonResponse({'error': 'Method not allowed'})
+
     @api_view(['GET'])
     @permission_classes([IsAuthenticated])
     def restaurantesListar(request):

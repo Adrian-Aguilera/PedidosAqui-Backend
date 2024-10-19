@@ -8,6 +8,7 @@ from asgiref.sync import sync_to_async, async_to_sync
 import json
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializer import UsuariosSerializerAutenticado, UsuariosSerializer
+from .models import Usuarios
 load_dotenv(override=True)
 
 # Create your views here.
@@ -47,6 +48,18 @@ class LoginMethod(APIView):
                     return JsonResponse({'error': 'Error al crear la cuenta'})
             except Exception as e:
                 return JsonResponse({'error': f'Create account error: {str(e)}'})
+        else:
+            return JsonResponse({'error': 'Method not allowed'})
+    @api_view(['POST'])
+    @permission_classes([IsAuthenticated])
+    def perfil(request):
+        if request.method == 'POST':
+            try:
+                usuario = Usuarios.objects.get(id=request.user.id)
+                serializer = UsuariosSerializer(usuario)
+                return JsonResponse({'data': serializer.data})
+            except Exception as e:
+                return JsonResponse({'error': f'Get profile error: {str(e)}'})
         else:
             return JsonResponse({'error': 'Method not allowed'})
 class PerfilTokenObtainPairView(TokenObtainPairView):

@@ -37,7 +37,7 @@ class UsuariosSerializerAutenticado(TokenObtainPairSerializer):
 class UsuariosSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuarios
-        fields = ['nombre', 'correo', 'apellido', 'password']
+        fields = '__all__'
 
     def create(self, validated_data):
         password = validated_data.get('password')
