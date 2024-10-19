@@ -36,7 +36,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('loginMethods/api/', include('PALogin_App.urls')),
+    path('loginMethods/api/', include('Login_App.urls')),
 
 
     #rutas para obtener tokens con direccion al modelo Users por defecto de django:

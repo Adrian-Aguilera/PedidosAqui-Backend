@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'PALogin_App',
+    'Login_App',
     'corsheaders',
     'rest_framework',
     'sslserver',
@@ -61,7 +61,7 @@ SIMPLE_JWT = {
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    'PALogin_App.backends.UsuariosBackend',
+    'Login_App.backends.UsuariosBackend',
 ]
 
 MIDDLEWARE = [
