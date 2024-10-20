@@ -33,14 +33,20 @@ class PedidosToolsSerializer(serializers.ModelSerializer):
     menus = MenuFormaterSerializer(many=True)
     class Meta:
         model = Pedidos
-        fields = ['restaurante', 'cliente', 'menus', 'tiempoEstimado', 'status', 'ubicacionEntrega']
+        fields = ['id','restaurante', 'cliente', 'menus', 'tiempoEstimado', 'status', 'ubicacionEntrega']
 
     def update(self, instance, validated_data):
+        # Actualizar los campos simples
         instance.restaurante = validated_data.get('restaurante', instance.restaurante)
         instance.cliente = validated_data.get('cliente', instance.cliente)
-        instance.menus = validated_data.get('menus', instance.menus)
         instance.tiempoEstimado = validated_data.get('tiempoEstimado', instance.tiempoEstimado)
-        instance.status = validated_data.get('status', instance.status)
+        instance.status = validated_data.get('status', instance.status)  # Campo de texto, se asigna directamente
         instance.ubicacionEntrega = validated_data.get('ubicacionEntrega', instance.ubicacionEntrega)
+
+        # Actualizar la relación ManyToMany usando `set()`
+        if 'menus' in validated_data:
+            menus = validated_data.get('menus')
+            instance.menus.set(menus)  # Usar `set()` para actualizar la relación ManyToMany
+
         instance.save()
         return instance

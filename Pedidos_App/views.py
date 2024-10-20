@@ -100,3 +100,19 @@ class PedidosMethods(APIView):
                 return JsonResponse({'error': f'Actualizar pedido error: {str(e)}'})
         else:
             return JsonResponse({'error': 'Method not allowed'})
+
+    @api_view(['GET'])
+    @permission_classes([IsAuthenticated])
+    def listarPedidos_All(request):
+        '''Listar todos los pedidos'''
+        if request.method == 'GET':
+            try:
+                controller = PedidosController()
+                pedidos = controller.listarPedidos_All()
+                return JsonResponse({'data': {
+                    "pedidos": pedidos,
+                }})
+            except Exception as e:
+                return JsonResponse({'error': f'List pedidos error: {str(e)}'})
+        else:
+            return JsonResponse({'error': 'Method not allowed'})

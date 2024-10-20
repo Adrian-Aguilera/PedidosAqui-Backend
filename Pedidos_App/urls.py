@@ -6,4 +6,5 @@ urlpatterns = [
     path('listar/ByUsuario/', PedidosMethods.listarPedidosByUsuario, name='listarPedidosByUsuario'),
     path('listar/ByRestaurante/', PedidosMethods.PedidosByRestaurante, name='PedidosByRestaurante'),
     path('actualizar/estado/pedido/', PedidosMethods.actualizarEstadoPedido, name='actualizarEstadoPedido'),
+    path('listar/todos/', PedidosMethods.listarPedidos_All, name='listarPedidos_All'),
 ]

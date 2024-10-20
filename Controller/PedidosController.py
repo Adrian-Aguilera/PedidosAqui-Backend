@@ -46,7 +46,7 @@ class PedidosController:
         '''
         try:
             #buscar el menú en la base de datos (la instancia)
-            pedido = Pedidos.objects.get(id=data['pedidoID'])
+            pedido = Pedidos.objects.get(id=data.get('pedidoID'))
             #usando el serializer se actualiza el menú
             serializerPedido = PedidosToolsSerializer(pedido, data=data, partial=True)
             if serializerPedido.is_valid():
@@ -56,5 +56,14 @@ class PedidosController:
                 return {'errorSerializer': {
                     "mensaje": f'{str(serializerPedido.errors)}',
                 }}
+        except Exception as e:
+            return f'Error: {str(e)}'
+
+    def listarPedidos_All(self):
+        '''Para listar todos los menús que se han creado'''
+        try:
+            serializer = PedidosToolsSerializer(self.pedidos, many=True)
+            pedidos = serializer.data
+            return pedidos
         except Exception as e:
             return f'Error: {str(e)}'
