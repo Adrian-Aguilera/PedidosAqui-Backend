@@ -14,3 +14,8 @@ class PedidosSerializer(serializers.ModelSerializer):
         # Asignar los menús al pedido
         pedido.menuCount.set(menus)
         return pedido
+
+class PedidosToolsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Pedidos
+        fields = ['restaurante', 'cliente', 'menuCount', 'tiempoEstimado', 'status', 'ubicacionEntrega']

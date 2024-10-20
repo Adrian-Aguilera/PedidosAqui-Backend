@@ -1,19 +1,21 @@
 from Pedidos_App.models import Pedidos
 from Login_App.models import Usuarios
 from Restaurantes_App.models import Restaurantes, MenuRestaurantes
-
+from Pedidos_App.serializer import PedidosToolsSerializer
 
 class PedidosController:
     def __init__(self):
         self.pedidos = Pedidos.objects.all()
 
-    def listarPedidosByUsuario(self, usuario):
+    def PedidosByUsuario(self, usuario):
         '''para listar todos los pedidos de un usuario se le tiene que mandar el id del usuario'''
         try:
             try:
                 usuario = Usuarios.objects.get(id=usuario)
-                pedidos = Pedidos.objects.filter(cliente=usuario)
-                return pedidos
+                pedidos = self.pedidos.filter(cliente=usuario)
+                #pasar por el serializer y devolver los pedidos
+                serializer = PedidosToolsSerializer(pedidos, many=True)
+                return serializer.data
             except Exception as e:
                 return {'error': {
                     "mensaje": f'{str(e)}',

@@ -7,7 +7,7 @@ from .serializer import PedidosSerializer
 from .models import Pedidos
 from Pedidos_App.models import Restaurantes
 import json
-from Controller import PedidosController
+from Controller.PedidosController import PedidosController
 
 
 class PedidosMethods(APIView):
@@ -49,16 +49,17 @@ class PedidosMethods(APIView):
         else:
             return JsonResponse({'error': 'Method not allowed'})
 
+
     @api_view(['POST'])
     @permission_classes([IsAuthenticated])
     def listarPedidosByUsuario(request):
         '''para listar todos los pedidos de un usuario se le tiene que mandar el id del usuario'''
         if request.method == 'POST':
-            data = json.loads(request.body)
+            data = request.data
             try:
-                pedidos = PedidosController().listarPedidosByUsuario(data['idUsuario'])
-                serializer = PedidosSerializer(pedidos, many=True)
-                return JsonResponse({'data': serializer.data})
+                controller = PedidosController()
+                pedidos = controller.PedidosByUsuario(data.get('usuarioID'))
+                return JsonResponse({'data': pedidos})
             except Exception as e:
                 return JsonResponse({'error': f'List pedidos error: {str(e)}'})
         else:
