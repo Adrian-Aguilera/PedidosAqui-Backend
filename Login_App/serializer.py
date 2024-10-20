@@ -50,4 +50,15 @@ class UsuariosSerializerInList(serializers.ModelSerializer):
     '''Solo los campos que se quieren mostrar en la lista'''
     class Meta:
         model = Usuarios
-        fields = ['id', 'nombre', 'correo', 'apellido', 'password']
+        fields = ['id', 'nombre', 'correo', 'apellido']
+
+    def update(self, instance, validated_data):
+        instance.nombre = validated_data.get('nombre', instance.nombre)
+        instance.correo = validated_data.get('correo', instance.correo)
+        instance.apellido = validated_data.get('apellido', instance.apellido)
+        password = validated_data.get('password', None)
+
+        if password is not None:
+            instance.set_password(password)
+        instance.save()
+        return instance

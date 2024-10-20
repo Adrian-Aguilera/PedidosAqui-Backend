@@ -66,7 +66,7 @@ class LoginMethod(APIView):
         if request.method == 'POST':
             try:
                 usuario = Usuarios.objects.get(id=request.user.id)
-                serializer = UsuariosSerializer(usuario)
+                serializer = UsuariosSerializerInList(usuario)
                 return JsonResponse({'data': serializer.data})
             except Exception as e:
                 return JsonResponse({'error': f'Get profile error: {str(e)}'})
@@ -82,6 +82,33 @@ class LoginMethod(APIView):
                 return JsonResponse({'data': usuarios})
             except Exception as e:
                 return JsonResponse({'error': f'List users error: {str(e)}'})
+        else:
+            return JsonResponse({'error': 'Method not allowed'})
+
+    @api_view(['POST'])
+    @permission_classes([IsAuthenticated])
+    def EditarUsuario(request):
+        if request.method == 'POST':
+            try:
+                usuario_id = request.data.get('id')
+                try:
+                    usuario = Usuarios.objects.get(id=usuario_id)
+                except Usuarios.DoesNotExist:
+                    return JsonResponse({'error': 'Usuario no encontrado'}, status=404)
+
+                # Serializar y validar los datos de entrada
+                serializer = UsuariosSerializerInList(usuario, data=request.data, partial=True)
+                if serializer.is_valid():
+                    serializer.save()
+                    return JsonResponse({'data': {
+                        "nombre": serializer.validated_data.get('nombre', usuario.nombre),
+                        "correo": serializer.validated_data.get('correo', usuario.correo),
+                        "apellido": serializer.validated_data.get('apellido', usuario.apellido),
+                    }})
+                else:
+                    return JsonResponse({'error': 'Error al modificar el usuario'})
+            except Exception as e:
+                return JsonResponse({'error': f'Create account error: {str(e)}'})
         else:
             return JsonResponse({'error': 'Method not allowed'})
 class PerfilTokenObtainPairView(TokenObtainPairView):
