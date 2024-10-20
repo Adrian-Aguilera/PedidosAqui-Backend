@@ -39,7 +39,7 @@ class MenusController:
         '''
         try:
             #buscar el menú en la base de datos (la instancia)
-            menu = MenuRestaurantes.objects.get(id=data['id'])
+            menu = MenuRestaurantes.objects.get(id=data['menuID'])
             #usando el serializer se actualiza el menú
             serializerMenu = MenuRestaurantesSerializer(menu, data=data, partial=True)
             if serializerMenu.is_valid():
