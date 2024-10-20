@@ -35,13 +35,15 @@ class PedidosMethods(APIView):
                     return JsonResponse({'data': {
                         "restaurante": serializer.data['restaurante'],
                         "cliente": serializer.data['cliente'],
-                        "menu": serializer.data['menu'],
+                        "menu": serializer.data['menus'],
                         "tiempoEstimado": serializer.data['tiempoEstimado'],
                         "status": serializer.data['status'],
                         "ubicacionEntrega": serializer.data['ubicacionEntrega'],
                     }})
                 else:
-                    return JsonResponse({'error': 'Error al crear el pedido'})
+                    return JsonResponse({'error': {
+                        "mensaje": f'{str(serializer.errors)}',
+                    }})
             except Exception as e:
                 return JsonResponse({'error': {
                     "mensaje": f'{str(e)}',
@@ -59,7 +61,9 @@ class PedidosMethods(APIView):
             try:
                 controller = PedidosController()
                 pedidos = controller.PedidosByUsuario(data.get('usuarioID'))
-                return JsonResponse({'data': pedidos})
+                return JsonResponse({'data': {
+                    "pedidos": pedidos,
+                }})
             except Exception as e:
                 return JsonResponse({'error': f'List pedidos error: {str(e)}'})
         else:
