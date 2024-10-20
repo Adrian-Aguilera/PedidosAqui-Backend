@@ -45,3 +45,9 @@ class UsuariosSerializer(serializers.ModelSerializer):
         instancia.set_password(password)
         instancia.save()
         return instancia
+
+class UsuariosSerializerInList(serializers.ModelSerializer):
+    '''Solo los campos que se quieren mostrar en la lista'''
+    class Meta:
+        model = Usuarios
+        fields = ['id', 'nombre', 'correo', 'apellido', 'password']

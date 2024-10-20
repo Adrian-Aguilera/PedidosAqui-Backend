@@ -7,12 +7,22 @@ from dotenv import load_dotenv
 from asgiref.sync import sync_to_async, async_to_sync
 import json
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .serializer import UsuariosSerializerAutenticado, UsuariosSerializer
+from .serializer import UsuariosSerializerAutenticado, UsuariosSerializer, UsuariosSerializerInList
 from .models import Usuarios
 load_dotenv(override=True)
 
-# Create your views here.
 
+class CotrollerInterface:
+    def __init__(self):
+        self.usuarios = Usuarios.objects.all()
+
+    def listarUsuarios(self):
+        try:
+            serializer = UsuariosSerializerInList(self.usuarios, many=True)
+            usuarios = serializer.data
+            return usuarios
+        except Exception as e:
+            return f'Error: {str(e)}'
 class LoginMethod(APIView):
     @api_view(['POST'])
     def login(request):
@@ -60,6 +70,18 @@ class LoginMethod(APIView):
                 return JsonResponse({'data': serializer.data})
             except Exception as e:
                 return JsonResponse({'error': f'Get profile error: {str(e)}'})
+        else:
+            return JsonResponse({'error': 'Method not allowed'})
+
+    @api_view(['GET'])
+    def listarUsuarios(request):
+        if request.method == 'GET':
+            try:
+                controllerInterface = CotrollerInterface()
+                usuarios = controllerInterface.listarUsuarios()
+                return JsonResponse({'data': usuarios})
+            except Exception as e:
+                return JsonResponse({'error': f'List users error: {str(e)}'})
         else:
             return JsonResponse({'error': 'Method not allowed'})
 class PerfilTokenObtainPairView(TokenObtainPairView):

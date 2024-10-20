@@ -38,6 +38,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('loginMethods/api/', include('Login_App.urls')),
     path('restaurantesMethods/api/', include('Restaurantes_App.urls')),
+    path('pedidosMethods/api/', include('Pedidos_App.urls')),
 
 
     #rutas para obtener tokens con direccion al modelo Users por defecto de django:

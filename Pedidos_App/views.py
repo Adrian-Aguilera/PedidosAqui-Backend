@@ -7,10 +7,21 @@ from .serializer import PedidosSerializer
 from .models import Pedidos
 from Pedidos_App.models import Restaurantes
 import json
-# Create your views here.
+from Controller import PedidosController
 
 
 class PedidosMethods(APIView):
+    #json que se manda al crear un pedido
+    '''
+    {
+        "restaurante": 1,
+        "cliente": 1,
+        "menu": [1, 2, 3],
+        "tiempoEstimado": "2022-01-01T00:00:00",
+        "status": "pendiente",
+        "ubicacionEntrega": "entrega"
+    }
+    '''
     @api_view(['POST'])
     @permission_classes([IsAuthenticated])
     def pedidosCrear(request):
@@ -35,5 +46,20 @@ class PedidosMethods(APIView):
                 return JsonResponse({'error': {
                     "mensaje": f'{str(e)}',
                 }})
+        else:
+            return JsonResponse({'error': 'Method not allowed'})
+
+    @api_view(['POST'])
+    @permission_classes([IsAuthenticated])
+    def listarPedidosByUsuario(request):
+        '''para listar todos los pedidos de un usuario se le tiene que mandar el id del usuario'''
+        if request.method == 'POST':
+            data = json.loads(request.body)
+            try:
+                pedidos = PedidosController().listarPedidosByUsuario(data['idUsuario'])
+                serializer = PedidosSerializer(pedidos, many=True)
+                return JsonResponse({'data': serializer.data})
+            except Exception as e:
+                return JsonResponse({'error': f'List pedidos error: {str(e)}'})
         else:
             return JsonResponse({'error': 'Method not allowed'})
