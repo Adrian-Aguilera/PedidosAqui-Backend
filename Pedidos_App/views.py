@@ -85,3 +85,18 @@ class PedidosMethods(APIView):
                 return JsonResponse({'error': f'List pedidos error: {str(e)}'})
         else:
             return JsonResponse({'error': 'Method not allowed'})
+
+    @api_view(['POST'])
+    @permission_classes([IsAuthenticated])
+    def actualizarEstadoPedido(request):
+        '''Actualizar el estado de un pedido'''
+        if request.method == 'POST':
+            try:
+                controller = PedidosController()
+                data = request.data
+                pedidoFuncion = controller.actualizarEstadoPedido(data)
+                return JsonResponse({'data': pedidoFuncion})
+            except Exception as e:
+                return JsonResponse({'error': f'Actualizar pedido error: {str(e)}'})
+        else:
+            return JsonResponse({'error': 'Method not allowed'})

@@ -34,3 +34,13 @@ class PedidosToolsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pedidos
         fields = ['restaurante', 'cliente', 'menus', 'tiempoEstimado', 'status', 'ubicacionEntrega']
+
+    def update(self, instance, validated_data):
+        instance.restaurante = validated_data.get('restaurante', instance.restaurante)
+        instance.cliente = validated_data.get('cliente', instance.cliente)
+        instance.menus = validated_data.get('menus', instance.menus)
+        instance.tiempoEstimado = validated_data.get('tiempoEstimado', instance.tiempoEstimado)
+        instance.status = validated_data.get('status', instance.status)
+        instance.ubicacionEntrega = validated_data.get('ubicacionEntrega', instance.ubicacionEntrega)
+        instance.save()
+        return instance

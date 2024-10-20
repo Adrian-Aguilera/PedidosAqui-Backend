@@ -38,3 +38,23 @@ class PedidosController:
                 }}
         except Exception as e:
             return f'Error: {str(e)}'
+
+    def actualizarEstadoPedido(self, data):
+        '''
+            Para actualizar el estado de un pedido se le tiene que mandar el id del pedido y el nuevo estado
+            Usando el serializer se crea el menú y se lo guarda en la base de datos
+        '''
+        try:
+            #buscar el menú en la base de datos (la instancia)
+            pedido = Pedidos.objects.get(id=data['pedidoID'])
+            #usando el serializer se actualiza el menú
+            serializerPedido = PedidosToolsSerializer(pedido, data=data, partial=True)
+            if serializerPedido.is_valid():
+                serializerPedido.save()
+                return serializerPedido.data
+            else:
+                return {'errorSerializer': {
+                    "mensaje": f'{str(serializerPedido.errors)}',
+                }}
+        except Exception as e:
+            return f'Error: {str(e)}'
