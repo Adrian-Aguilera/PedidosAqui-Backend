@@ -44,3 +44,19 @@ class UsuariosRestaurantesSerializer(serializers.ModelSerializer):
         instancia.set_password(password)
         instancia.save()
         return instancia
+
+class UsuariosRestaurantesSerializerInList(serializers.ModelSerializer):
+    '''Solo los campos que se quieren mostrar en la lista'''
+    class Meta:
+        model = RestaurantesUsuarios
+        fields = ['id', 'nombre', 'correo']
+
+    def update(self, instance, validated_data):
+        instance.nombre = validated_data.get('nombre', instance.nombre)
+        instance.correo = validated_data.get('correo', instance.correo)
+        password = validated_data.get('password', None)
+
+        if password is not None:
+            instance.set_password(password)
+        instance.save()
+        return instance

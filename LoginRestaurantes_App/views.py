@@ -8,6 +8,7 @@ from asgiref.sync import sync_to_async, async_to_sync
 import json
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializer import UsuariosRestaurantesSerializerAutenticado, UsuariosRestaurantesSerializer
+from .models import RestaurantesUsuarios, UsuariosRestaurantesSerializerInList
 class RestaurantesLoginMethod(APIView):
     '''
         {
@@ -55,6 +56,46 @@ class RestaurantesLoginMethod(APIView):
                     return JsonResponse({'data': 'Cuenta creada exitosamente'})
                 else:
                     return JsonResponse({'error': 'Error al crear la cuenta'})
+            except Exception as e:
+                return JsonResponse({'error': f'Create account error: {str(e)}'})
+        else:
+            return JsonResponse({'error': 'Method not allowed'})
+
+    @api_view(['GET'])
+    @permission_classes([IsAuthenticated])
+    def perfil(request):
+        if request.method == 'GET':
+            try:
+                usuario = RestaurantesUsuarios.objects.get(id=request.user.id)
+                serializer = UsuariosRestaurantesSerializerInList(usuario)
+                return JsonResponse({'data': serializer.data})
+            except Exception as e:
+                return JsonResponse({'error': f'Get profile error: {str(e)}'})
+        else:
+            return JsonResponse({'error': 'Method not allowed'})
+
+    @api_view(['POST'])
+    @permission_classes([IsAuthenticated])
+    def EditarUsuario(request):
+        if request.method == 'POST':
+            try:
+                usuario_id = request.data.get('id')
+                try:
+                    usuario = RestaurantesUsuarios.objects.get(id=usuario_id)
+                except RestaurantesUsuarios.DoesNotExist:
+                    return JsonResponse({'error': 'Usuario no encontrado'}, status=404)
+
+                # Serializar y validar los datos de entrada
+                serializer = UsuariosRestaurantesSerializerInList(usuario, data=request.data, partial=True)
+                if serializer.is_valid():
+                    serializer.save()
+                    return JsonResponse({'data': {
+                        "id": usuario.id,
+                        "nombre": serializer.validated_data.get('nombre', usuario.nombre),
+                        "correo": serializer.validated_data.get('correo', usuario.correo),
+                    }})
+                else:
+                    return JsonResponse({'error': 'Error al modificar el usuario'})
             except Exception as e:
                 return JsonResponse({'error': f'Create account error: {str(e)}'})
         else:
