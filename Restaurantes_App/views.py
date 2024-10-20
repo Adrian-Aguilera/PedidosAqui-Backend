@@ -17,7 +17,7 @@ class RestaurantesMethods(APIView):
     @permission_classes([IsAuthenticated])
     def restaurantesCrear(request):
         if request.method == 'POST':
-            data = json.loads(request.body)
+            data = request.data
             try:
                 serializer = RestaurantesSerializer(data=data)
                 if serializer.is_valid():
