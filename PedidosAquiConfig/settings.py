@@ -71,6 +71,7 @@ SIMPLE_JWT = {
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'Login_App.backends.UsuariosBackend',
+    'LoginRestaurantes_App.backends.UsuariosRestaurantesBackend',
 ]
 
 MIDDLEWARE = [

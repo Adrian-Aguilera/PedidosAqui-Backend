@@ -33,3 +33,14 @@ class UsuariosRestaurantesSerializerAutenticado(TokenObtainPairSerializer):
                 raise serializers.ValidationError(f'Error: {str(e)}')
         else:
             raise serializers.ValidationError('Falta campo correo o password')
+class UsuariosRestaurantesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RestaurantesUsuarios
+        fields = '__all__'
+
+    def create(self, validated_data):
+        password = validated_data.get('password')
+        instancia = RestaurantesUsuarios(**validated_data)
+        instancia.set_password(password)
+        instancia.save()
+        return instancia
