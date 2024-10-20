@@ -22,3 +22,19 @@ class PedidosController:
                 }}
         except Exception as e:
             return f'Error: {str(e)}'
+
+    def PedidosByRestaurante(self, restaurante):
+        '''para listar todos los pedidos de un restaurante se le tiene que mandar el id del restaurante'''
+        try:
+            try:
+                restaurante = Restaurantes.objects.get(id=restaurante)
+                pedidos = self.pedidos.filter(restaurante=restaurante)
+                #pasar por el serializer y devolver los pedidos
+                serializer = PedidosToolsSerializer(pedidos, many=True)
+                return serializer.data
+            except Exception as e:
+                return {'error': {
+                    "mensaje": f'{str(e)}',
+                }}
+        except Exception as e:
+            return f'Error: {str(e)}'
