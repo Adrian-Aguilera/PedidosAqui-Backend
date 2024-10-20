@@ -6,4 +6,5 @@ urlpatterns = [
     path('crear/', RestaurantesLoginMethod.CreateCuenta, name='create'),
     path('perfil/informacion/', RestaurantesLoginMethod.perfil, name='perfil'),
     path('perfil/editar/', RestaurantesLoginMethod.EditarUsuario, name='EditarUsuario'),
+    path('listar/restaurantes/usuarios/', RestaurantesLoginMethod.listarUsuarios, name='listarUsuarios'),
 ]

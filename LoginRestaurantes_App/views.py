@@ -7,8 +7,22 @@ from dotenv import load_dotenv
 from asgiref.sync import sync_to_async, async_to_sync
 import json
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .serializer import UsuariosRestaurantesSerializerAutenticado, UsuariosRestaurantesSerializer
-from .models import RestaurantesUsuarios, UsuariosRestaurantesSerializerInList
+from .serializer import UsuariosRestaurantesSerializerAutenticado, UsuariosRestaurantesSerializer, UsuariosRestaurantesSerializerInList
+from .models import RestaurantesUsuarios
+
+
+class CotrollerInterface:
+    def __init__(self):
+        self.usuarios = RestaurantesUsuarios.objects.all()
+
+    def listarUsuarios(self):
+        try:
+            serializer = UsuariosRestaurantesSerializerInList(self.usuarios, many=True)
+            usuarios = serializer.data
+            return usuarios
+        except Exception as e:
+            return f'Error: {str(e)}'
+
 class RestaurantesLoginMethod(APIView):
     '''
         {
@@ -98,5 +112,18 @@ class RestaurantesLoginMethod(APIView):
                     return JsonResponse({'error': 'Error al modificar el usuario'})
             except Exception as e:
                 return JsonResponse({'error': f'Create account error: {str(e)}'})
+        else:
+            return JsonResponse({'error': 'Method not allowed'})
+
+    @api_view(['GET'])
+    @permission_classes([IsAuthenticated])
+    def listarUsuarios(request):
+        if request.method == 'GET':
+            try:
+                controllerInterface = CotrollerInterface()
+                usuarios = controllerInterface.listarUsuarios()
+                return JsonResponse({'data': usuarios})
+            except Exception as e:
+                return JsonResponse({'error': f'List users error: {str(e)}'})
         else:
             return JsonResponse({'error': 'Method not allowed'})
