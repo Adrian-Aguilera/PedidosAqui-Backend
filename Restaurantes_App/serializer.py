@@ -13,3 +13,13 @@ class MenuRestaurantesSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return MenuRestaurantes.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.titulo = validated_data.get('titulo', instance.titulo)
+        instance.nombre = validated_data.get('nombre', instance.nombre)
+        instance.precio = validated_data.get('precio', instance.precio)
+        instance.fecha = validated_data.get('fecha', instance.fecha)
+        instance.status = validated_data.get('status', instance.status)
+        instance.imagen = validated_data.get('imagen', instance.imagen)
+        instance.save()
+        return instance

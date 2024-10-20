@@ -98,3 +98,18 @@ class RestaurantesMethods(APIView):
                 return JsonResponse({'error': f'Create menu restaurants error: {str(e)}'})
         else:
             return JsonResponse({'error': 'Method not allowed'})
+
+    @api_view(['POST'])
+    @permission_classes([IsAuthenticated])
+    def editarMenuEstado(request):
+        '''Editar el estado del menu de un restaurante'''
+        if request.method == 'POST':
+            try:
+                controller = MenusController()
+                data = request.data
+                menuFuncion = controller.editarMenuEstado(data)
+                return JsonResponse({'data': menuFuncion})
+            except Exception as e:
+                return JsonResponse({'error': f'Editar menu restaurants error: {str(e)}'})
+        else:
+            return JsonResponse({'error': 'Method not allowed'})
