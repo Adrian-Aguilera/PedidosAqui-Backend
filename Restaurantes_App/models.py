@@ -18,7 +18,7 @@ class MenuRestaurantes(models.Model):
     titulo = models.CharField(max_length=255, help_text='Titulo del menu')
     nombre = models.CharField(max_length=255, help_text='Nombre del menu')
     precio = models.IntegerField(help_text='Precio del menu')
-    fecha = models.DateTimeField(help_text='Fecha del menu')
+    fecha = models.CharField(max_length=255, help_text='Fecha del menu')
     status = models.BooleanField(help_text='Estado del menu', default=False)
     imagen = models.FileField(upload_to='images/', blank=True, null=True)
 

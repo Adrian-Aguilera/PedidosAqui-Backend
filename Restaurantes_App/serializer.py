@@ -10,3 +10,6 @@ class MenuRestaurantesSerializer(serializers.ModelSerializer):
     class Meta:
         model = MenuRestaurantes
         fields = '__all__'
+
+    def create(self, validated_data):
+        return MenuRestaurantes.objects.create(**validated_data)

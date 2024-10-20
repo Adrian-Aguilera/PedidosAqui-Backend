@@ -7,7 +7,8 @@ urlpatterns = [
     path('listar/', RestaurantesMethods.restaurantesListar, name='restaurantesListar'),
     path('eliminar/', RestaurantesMethods.restaurantesEliminar, name='restaurantesEliminar'),
     path('crear/', RestaurantesMethods.restaurantesCrear, name='restaurantesCrear'),
-    path('listar/menu/todos/', RestaurantesMethods.MenuRestaurantesListar, name='MenuRestaurantesListar'),
+    path('listar/menu/todos/', RestaurantesMethods.MenusRestaurantesListar, name='MenuRestaurantesListar'),
+    path('crear/menu/', RestaurantesMethods.CrearMenuRestaurantes, name='CrearMenuRestaurantes'),
 ]
 
 if settings.DEBUG:
