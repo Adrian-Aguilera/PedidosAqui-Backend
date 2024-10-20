@@ -101,6 +101,7 @@ class LoginMethod(APIView):
                 if serializer.is_valid():
                     serializer.save()
                     return JsonResponse({'data': {
+                        "id": usuario.id,
                         "nombre": serializer.validated_data.get('nombre', usuario.nombre),
                         "correo": serializer.validated_data.get('correo', usuario.correo),
                         "apellido": serializer.validated_data.get('apellido', usuario.apellido),

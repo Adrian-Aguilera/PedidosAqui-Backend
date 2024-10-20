@@ -6,8 +6,8 @@ from rest_framework.decorators import api_view, permission_classes
 from dotenv import load_dotenv
 from asgiref.sync import sync_to_async, async_to_sync
 import json
-from .serializer import RestaurantesSerializer
-from .models import Restaurantes
+from .serializer import RestaurantesSerializer, MenuRestaurantesSerializer
+from .models import Restaurantes, MenuRestaurantes
 load_dotenv(override=True)
 # Create your views here.
 
@@ -67,5 +67,18 @@ class RestaurantesMethods(APIView):
                 return JsonResponse({'data': serializer.data})
             except Exception as e:
                 return JsonResponse({'error': f'List restaurants error: {str(e)}'})
+        else:
+            return JsonResponse({'error': 'Method not allowed'})
+
+    @api_view(['GET'])
+    @permission_classes([IsAuthenticated])
+    def MenuRestaurantesListar(request):
+        if request.method == 'GET':
+            try:
+                menuRestaurantes = MenuRestaurantes.objects.all()
+                serializer = MenuRestaurantesSerializer(menuRestaurantes, many=True)
+                return JsonResponse({'data': serializer.data})
+            except Exception as e:
+                return JsonResponse({'error': f'List menu restaurants error: {str(e)}'})
         else:
             return JsonResponse({'error': 'Method not allowed'})
