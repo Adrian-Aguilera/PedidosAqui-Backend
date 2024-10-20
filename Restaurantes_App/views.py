@@ -87,6 +87,7 @@ class RestaurantesMethods(APIView):
     @api_view(['POST'])
     @permission_classes([IsAuthenticated])
     def CrearMenuRestaurantes(request):
+        '''Para este menu se le tiene que mandar como formato "form-data"'''
         if request.method == 'POST':
             try:
                 controller = MenusController()
