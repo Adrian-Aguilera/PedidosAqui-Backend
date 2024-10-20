@@ -13,3 +13,14 @@ class Restaurantes(models.Model):
     def __str__(self):
         return self.nombre
 
+class MenuRestaurantes(models.Model):
+    restaurante = models.ForeignKey(Restaurantes, on_delete=models.CASCADE)
+    titulo = models.CharField(max_length=255, help_text='Titulo del menu')
+    nombre = models.CharField(max_length=255, help_text='Nombre del menu')
+    precio = models.IntegerField(help_text='Precio del menu')
+    fecha = models.DateTimeField(help_text='Fecha del menu')
+    status = models.BooleanField(help_text='Estado del menu', default=False)
+    imagen = models.FileField(upload_to='images/', blank=True, null=True)
+
+    def __str__(self):
+        return self.titulo
