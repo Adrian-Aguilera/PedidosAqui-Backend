@@ -1,7 +1,9 @@
 from django.db import models
+from LoginRestaurantes_App.models import RestaurantesUsuarios
 
 # Create your models here.
 class Restaurantes(models.Model):
+    usarioRestaurante = models.ForeignKey(RestaurantesUsuarios, on_delete=models.CASCADE, null=True)
     nombre = models.CharField(max_length=255, help_text='Nombre del restaurante')
     ubicacion = models.CharField(max_length=255, help_text='Ubicación del restaurante')
     descripcion = models.CharField(max_length=255, help_text='Descripción del restaurante')
