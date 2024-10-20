@@ -9,7 +9,7 @@ urlpatterns = [
     path('crear/', RestaurantesMethods.restaurantesCrear, name='restaurantesCrear'),
     path('listar/menu/todos/', RestaurantesMethods.MenusRestaurantesListar, name='MenuRestaurantesListar'),
     path('crear/menu/', RestaurantesMethods.CrearMenuRestaurantes, name='CrearMenuRestaurantes'),
-    path('editar/menu/estado/', RestaurantesMethods.editarMenuEstado, name='editarMenuEstado'),
+    path('editar/menu/estado/', RestaurantesMethods.editarMenu, name='editarMenuEstado se le tiene que mandar el id del menu y el nuevo estado'),
 ]
 
 if settings.DEBUG:

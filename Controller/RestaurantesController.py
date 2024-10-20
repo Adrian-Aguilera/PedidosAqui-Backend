@@ -32,7 +32,7 @@ class MenusController:
         except Exception as e:
             return f'Error: {str(e)}'
 
-    def editarMenuEstado(self, data):
+    def editarMenuByRestaurante(self, data):
         '''
             Para editar el estado de un menú se le tiene que mandar el id del menú y el nuevo estado
             Usando el serializer se crea el menú y se lo guarda en la base de datos

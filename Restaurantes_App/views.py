@@ -101,13 +101,13 @@ class RestaurantesMethods(APIView):
 
     @api_view(['POST'])
     @permission_classes([IsAuthenticated])
-    def editarMenuEstado(request):
-        '''Editar el estado del menu de un restaurante'''
+    def editarMenu(request):
+        '''Editar el estado del menu de un restaurante se le tiene que mandar el id del menu y el nuevo estado'''
         if request.method == 'POST':
             try:
                 controller = MenusController()
                 data = request.data
-                menuFuncion = controller.editarMenuEstado(data)
+                menuFuncion = controller.editarMenuByRestaurante(data)
                 return JsonResponse({'data': menuFuncion})
             except Exception as e:
                 return JsonResponse({'error': f'Editar menu restaurants error: {str(e)}'})
