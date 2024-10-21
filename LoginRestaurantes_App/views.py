@@ -67,7 +67,10 @@ class RestaurantesLoginMethod(APIView):
                 serializer = UsuariosRestaurantesSerializer(data=data)
                 if serializer.is_valid():
                     serializer.save()
-                    return JsonResponse({'data': 'Cuenta creada exitosamente'})
+                    return JsonResponse({'data': {
+                        "status": 200,
+                        "mensaje": "Cuenta creada exitosamente",
+                    }})
                 else:
                     return JsonResponse({'error': 'Error al crear la cuenta'})
             except Exception as e:
