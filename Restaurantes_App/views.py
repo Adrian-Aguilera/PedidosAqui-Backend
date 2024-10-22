@@ -8,7 +8,7 @@ from asgiref.sync import sync_to_async, async_to_sync
 import json
 from .serializer import RestaurantesSerializer, MenuRestaurantesSerializer
 from .models import Restaurantes, MenuRestaurantes
-from Controller.RestaurantesController import MenusController
+from Controller.RestaurantesController import MenusController, RestaurantesController
 load_dotenv(override=True)
 # Create your views here.
 
@@ -111,5 +111,20 @@ class RestaurantesMethods(APIView):
                 return JsonResponse({'data': menuFuncion})
             except Exception as e:
                 return JsonResponse({'error': f'Editar menu restaurants error: {str(e)}'})
+        else:
+            return JsonResponse({'error': 'Method not allowed'})
+
+    @api_view(['POST'])
+    @permission_classes([IsAuthenticated])
+    def ListarRestaurantesByUsuarioRestaurante(request):
+        if request.method == 'POST':
+            try:
+                data = request.data
+                print(data)
+                controller = RestaurantesController()
+                restaurantes = controller.RestaurantesByUsuario(data)
+                return JsonResponse({'data': restaurantes})
+            except Exception as e:
+                return JsonResponse({'error': f'List restaurants by user error: {str(e)}'})
         else:
             return JsonResponse({'error': 'Method not allowed'})

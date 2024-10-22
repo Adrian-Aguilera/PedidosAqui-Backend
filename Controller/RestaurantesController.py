@@ -1,6 +1,7 @@
 from Restaurantes_App.models import Restaurantes, MenuRestaurantes
 from Restaurantes_App.serializer import RestaurantesSerializer, MenuRestaurantesSerializer
 from Pedidos_App.models import Pedidos
+from LoginRestaurantes_App.models import RestaurantesUsuarios
 class MenusController:
     def __init__(self):
         self.restaurantes = Restaurantes.objects.all()
@@ -51,3 +52,37 @@ class MenusController:
                 }}
         except Exception as e:
             return f'Error: {str(e)}'
+
+class RestaurantesController:
+    def __init__(self):
+        self.restaurantes = Restaurantes.objects.all()
+        self.menuRestaurantes = MenuRestaurantes.objects.all()
+
+    def listarRestaurantes_All(self):
+        '''Para listar todos los restaurantes que se han creado'''
+        try:
+            serializer = RestaurantesSerializer(self.restaurantes, many=True)
+            restaurantes = serializer.data
+            return restaurantes
+        except Exception as e:
+            return f'Error: {str(e)}'
+
+    def RestaurantesByUsuario(self, data):
+        '''
+            Para listar los restaurantes que tiene un usuario se le tiene que mandar el id del usuario.
+            Usando el serializer se obtiene la lista de restaurantes.
+        '''
+        try:
+            # Filtrar los restaurantes directamente por el ID del usuario
+            usuario_restaurante_id = data.get('usuarioRestauranteID')
+            if not usuario_restaurante_id:
+                return {'error': 'El ID del usuario es requerido'}
+            restaurantes_lista = self.restaurantes.filter(usuarioRestaurante__id=usuario_restaurante_id)
+            # Serializar la lista de restaurantes
+            serializer_restaurantes = RestaurantesSerializer(restaurantes_lista, many=True)
+            return serializer_restaurantes.data
+        except RestaurantesUsuarios.DoesNotExist:
+            return {'error': 'El usuario con el ID proporcionado no existe'}
+        except Exception as e:
+            return {'error': f'Error inesperado: {str(e)}'}
+
