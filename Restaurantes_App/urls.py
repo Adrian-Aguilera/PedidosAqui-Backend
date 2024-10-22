@@ -11,6 +11,7 @@ urlpatterns = [
     path('crear/menu/', RestaurantesMethods.CrearMenuRestaurantes, name='CrearMenuRestaurantes'),
     path('editar/menu/estado/', RestaurantesMethods.editarMenu, name='editarMenuEstado se le tiene que mandar el id del menu y el nuevo estado'),
     path('listar/restaurantes/usuarioRestaurante/', RestaurantesMethods.ListarRestaurantesByUsuarioRestaurante, name='ListarRestaurantesByUsuarioRestaurante'),
+    path('editar/restaurante/', RestaurantesMethods.RestaurantesEditar, name='RestaurantesEditar')
 ]
 
 if settings.DEBUG:

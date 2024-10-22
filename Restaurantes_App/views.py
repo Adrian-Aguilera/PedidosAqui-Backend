@@ -42,7 +42,7 @@ class RestaurantesMethods(APIView):
     @permission_classes([IsAuthenticated])
     def restaurantesEliminar(request):
         if request.method == 'POST':
-            data = json.loads(request.body)
+            data = request.data
             print(data)
             try:
                 restaurante = Restaurantes.objects.get(id=data['id'])
@@ -126,5 +126,19 @@ class RestaurantesMethods(APIView):
                 return JsonResponse({'data': restaurantes})
             except Exception as e:
                 return JsonResponse({'error': f'List restaurants by user error: {str(e)}'})
+        else:
+            return JsonResponse({'error': 'Method not allowed'})
+    
+    @api_view(['POST'])
+    @permission_classes([IsAuthenticated])
+    def RestaurantesEditar(request):
+        if request.method == 'POST':
+            try:
+                data = request.data
+                controller = RestaurantesController()
+                restaurantes = controller.EditarRestaurante(data)
+                return JsonResponse({'data': restaurantes})
+            except Exception as e:
+                return JsonResponse({'error': f'Edit restaurants error: {str(e)}'})
         else:
             return JsonResponse({'error': 'Method not allowed'})

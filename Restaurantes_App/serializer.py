@@ -9,6 +9,17 @@ class RestaurantesSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         return Restaurantes.objects.create(**validated_data)
 
+    def update(self, instance, validated_data):
+        instance.nombre = validated_data.get('nombre', instance.nombre)
+        instance.ubicacion = validated_data.get('ubicacion', instance.ubicacion)
+        instance.descripcion = validated_data.get('descripcion', instance.descripcion)
+        instance.telefono = validated_data.get('telefono', instance.telefono)
+        instance.tipoCocina = validated_data.get('tipoCocina', instance.tipoCocina)
+        instance.puntaje = validated_data.get('puntaje', instance.puntaje)
+        instance.imagen = validated_data.get('imagen', instance.imagen)
+        instance.save()
+        return instance
+
 class MenuRestaurantesSerializer(serializers.ModelSerializer):
     class Meta:
         model = MenuRestaurantes

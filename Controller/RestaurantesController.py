@@ -86,3 +86,21 @@ class RestaurantesController:
         except Exception as e:
             return {'error': f'Error inesperado: {str(e)}'}
 
+    def EditarRestaurante(self, data):
+        '''
+            Para editar un restaurante se le tiene que mandar el id del restaurante y el nuevo nombre
+            Usando el serializer se actualiza el restaurante y se lo guarda en la base de datos
+        '''
+        try:
+            restaurante = Restaurantes.objects.get(id=data['restauranteID'])
+            serializerRestaurante = RestaurantesSerializer(restaurante, data=data, partial=True)
+            if serializerRestaurante.is_valid():
+                serializerRestaurante.save()
+                return serializerRestaurante.data
+            else:
+                return {'errorSerializer': {
+                    "mensaje": f'{str(serializerRestaurante.errors)}',
+                }}
+        except Exception as e:
+            return f'Error: {str(e)}'
+
