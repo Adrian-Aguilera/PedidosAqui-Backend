@@ -92,7 +92,7 @@ class RestaurantesController:
             Usando el serializer se actualiza el restaurante y se lo guarda en la base de datos
         '''
         try:
-            restaurante = Restaurantes.objects.get(id=data['restauranteID'])
+            restaurante = Restaurantes.objects.get(id=data.get("restauranteID"))
             serializerRestaurante = RestaurantesSerializer(restaurante, data=data, partial=True)
             if serializerRestaurante.is_valid():
                 serializerRestaurante.save()

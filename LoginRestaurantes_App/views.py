@@ -33,7 +33,7 @@ class RestaurantesLoginMethod(APIView):
     @api_view(['POST'])
     def login(request):
         if request.method == 'POST':
-            data = json.loads(request.body)
+            data = request.data
             correo = data['correo']
             password = data['password']
             try:

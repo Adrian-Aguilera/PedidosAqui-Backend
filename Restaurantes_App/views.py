@@ -45,7 +45,7 @@ class RestaurantesMethods(APIView):
             data = request.data
             print(data)
             try:
-                restaurante = Restaurantes.objects.get(id=data['id'])
+                restaurante = Restaurantes.objects.get(id=data['restauranteID'])
                 restaurante.delete()
                 return JsonResponse({'data': {
                     "mensaje": "Restaurante eliminado exitosamente",
