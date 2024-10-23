@@ -79,7 +79,7 @@ class PedidosMethods(APIView):
                 controller = PedidosController()
                 pedidos = controller.PedidosByRestaurante(data.get('restauranteID'))
                 return JsonResponse({'data': {
-                    "pedidos": pedidos,
+                    "pedidosByRestaurante": pedidos
                 }})
             except Exception as e:
                 return JsonResponse({'error': f'List pedidos error: {str(e)}'})

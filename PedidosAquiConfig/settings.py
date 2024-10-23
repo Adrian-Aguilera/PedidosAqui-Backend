@@ -53,8 +53,8 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'LoginRestaurantes_App.authentication.CustomJWTAuthentication', #AUTENTICACION PERSONALIZADA PARA LOGIN
         'Login_App.authentication.CustomJWTAuthentication', #AUTENTICACION PERSONALIZADA PARA LOGIN
+        'LoginRestaurantes_App.authentication.CustomJWTAuthentication', #AUTENTICACION PERSONALIZADA PARA LOGIN
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
 }
