@@ -86,6 +86,20 @@ class RestaurantesMethods(APIView):
 
     @api_view(['POST'])
     @permission_classes([IsAuthenticated])
+    def MenusByRestaurante(request):
+        if request.method == 'POST':
+            try:
+                controller = MenusController()
+                data = request.data
+                menus = controller.MenusByRestaurante(data)
+                return JsonResponse({'data': menus})
+            except Exception as e:
+                return JsonResponse({'error': f'List menu restaurants error: {str(e)}'})
+        else:
+            return JsonResponse({'error': 'Method not allowed'})
+
+    @api_view(['POST'])
+    @permission_classes([IsAuthenticated])
     def CrearMenuRestaurantes(request):
         '''Para este menu se le tiene que mandar como formato "form-data"'''
         if request.method == 'POST':

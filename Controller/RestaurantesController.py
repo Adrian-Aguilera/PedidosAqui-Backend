@@ -53,6 +53,23 @@ class MenusController:
         except Exception as e:
             return f'Error: {str(e)}'
 
+    def MenusByRestaurante(self, data):
+        '''
+            Para listar los menus de un restaurante se le tiene que mandar el id del restaurante
+            Usando el serializer se obtiene la lista de menus.
+        '''
+        try:
+            # Filtrar los menus directamente por el ID del restaurante
+            restaurante = Restaurantes.objects.get(id=data.get('restauranteID'))
+            menus = self.menuRestaurantes.filter(restaurante=restaurante)
+            # Serializar la lista de menus
+            serializer = MenuRestaurantesSerializer(menus, many=True)
+            return serializer.data
+        except Restaurantes.DoesNotExist:
+            return {'error': 'El restaurante con el ID proporcionado no existe'}
+        except Exception as e:
+            return {'error': f'Error inesperado: {str(e)}'}
+
 class RestaurantesController:
     def __init__(self):
         self.restaurantes = Restaurantes.objects.all()
