@@ -10,7 +10,7 @@ urlpatterns = [
     path('crear/menu/', RestaurantesMethods.CrearMenuRestaurantes, name='CrearMenuRestaurantes'),
     path('editar/menu/estado/', RestaurantesMethods.editarMenu, name='editarMenuEstado se le tiene que mandar el id del menu y el nuevo estado'),
     path('listar/restaurante/menu/', RestaurantesMethods.MenusByRestaurante, name='MenusByRestaurante'),
-
+    path('eliminar/restaurante/menu/', RestaurantesMethods.eliminarMenu, name='eliminarMenu'),
     path('listar/restaurantes/usuarioRestaurante/', RestaurantesMethods.ListarRestaurantesByUsuarioRestaurante, name='ListarRestaurantesByUsuarioRestaurante'),
     path('editar/restaurante/', RestaurantesMethods.RestaurantesEditar, name='RestaurantesEditar'),
     path('eliminar/restaurante/', RestaurantesMethods.restaurantesEliminar, name='restaurantesEliminar'),

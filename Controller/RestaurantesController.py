@@ -61,7 +61,7 @@ class MenusController:
         try:
             # Filtrar los menus directamente por el ID del restaurante
             restaurante = Restaurantes.objects.get(id=data.get('restauranteID'))
-            menus = self.menuRestaurantes.filter(restaurante=restaurante)
+            menus = self.menuRestaurantes.filter(restaurante_id=restaurante.id)
             # Serializar la lista de menus
             serializer = MenuRestaurantesSerializer(menus, many=True)
             return serializer.data
@@ -69,6 +69,23 @@ class MenusController:
             return {'error': 'El restaurante con el ID proporcionado no existe'}
         except Exception as e:
             return {'error': f'Error inesperado: {str(e)}'}
+
+    def eliminarMenu(self, data):
+        '''
+            Para eliminar un menu se le tiene que mandar el id del menu
+            Usando el serializer se elimina el menu y se lo guarda en la base de datos
+        '''
+        try:
+            menu = MenuRestaurantes.objects.get(id=data.get('menuID'))
+            menu.delete()
+            return {'data': {
+                "mensaje": "Menu eliminado exitosamente",
+                "titulo": menu.titulo,
+            }}
+        except Exception as e:
+            return {'error': {
+                "mensaje": f'{str(e)}',
+            }}
 
 class RestaurantesController:
     def __init__(self):
