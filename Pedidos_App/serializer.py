@@ -1,10 +1,16 @@
 from .models import Restaurantes, Pedidos, MenuRestaurantes
 from rest_framework import serializers
+from Login_App.models import Usuarios
 
 class MenuFormaterSerializer(serializers.ModelSerializer):
     class Meta:
         model = MenuRestaurantes
         fields = ['id', 'titulo', 'nombre']
+
+class ClienteFormaterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Usuarios
+        fields = ['id', 'nombre','correo']
 
 class PedidosSerializer(serializers.ModelSerializer):
     menus = serializers.PrimaryKeyRelatedField(many=True, queryset=MenuRestaurantes.objects.all())
@@ -31,6 +37,7 @@ class PedidosSerializer(serializers.ModelSerializer):
 
 class PedidosToolsSerializer(serializers.ModelSerializer):
     menus = MenuFormaterSerializer(many=True)
+    cliente = ClienteFormaterSerializer()
     class Meta:
         model = Pedidos
         fields = ['id','restaurante', 'cliente', 'menus', 'tiempoEstimado', 'status', 'ubicacionEntrega']
