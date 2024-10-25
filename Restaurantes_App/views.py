@@ -92,6 +92,12 @@ class RestaurantesMethods(APIView):
                 controller = MenusController()
                 data = request.data
                 menus = controller.MenusByRestaurante(data)
+                #tomar el campo imagen y concatenarle restaurantesMethods/api/
+                for menu in menus:
+                    if menu['imagen'] == None:
+                        menu['imagen'] = None
+                    else:
+                        menu['imagen'] = f'/restaurantesMethods/api{menu["imagen"]}'
                 return JsonResponse({'data': menus})
             except Exception as e:
                 return JsonResponse({'error': f'List menu restaurants error: {str(e)}'})

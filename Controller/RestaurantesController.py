@@ -1,5 +1,5 @@
 from Restaurantes_App.models import Restaurantes, MenuRestaurantes
-from Restaurantes_App.serializer import RestaurantesSerializer, MenuRestaurantesSerializer
+from Restaurantes_App.serializer import RestaurantesSerializer, MenuRestaurantesSerializer, MenuToolsSerializer
 from Pedidos_App.models import Pedidos
 from LoginRestaurantes_App.models import RestaurantesUsuarios
 class MenusController:
@@ -63,7 +63,7 @@ class MenusController:
             restaurante = Restaurantes.objects.get(id=data.get('restauranteID'))
             menus = self.menuRestaurantes.filter(restaurante_id=restaurante.id)
             # Serializar la lista de menus
-            serializer = MenuRestaurantesSerializer(menus, many=True)
+            serializer = MenuToolsSerializer(menus, many=True)
             return serializer.data
         except Restaurantes.DoesNotExist:
             return {'error': 'El restaurante con el ID proporcionado no existe'}

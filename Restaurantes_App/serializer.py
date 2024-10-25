@@ -37,3 +37,8 @@ class MenuRestaurantesSerializer(serializers.ModelSerializer):
         instance.imagen = validated_data.get('imagen', instance.imagen)
         instance.save()
         return instance
+
+class MenuToolsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MenuRestaurantes
+        fields = ['id', 'restaurante', 'titulo', 'nombre', 'precio', 'fecha', 'status', 'imagen']
