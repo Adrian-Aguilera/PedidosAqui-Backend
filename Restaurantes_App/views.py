@@ -41,6 +41,7 @@ class RestaurantesMethods(APIView):
     @api_view(['POST'])
     @permission_classes([IsAuthenticated])
     def restaurantesEliminar(request):
+        ''' Eliminar un restaurante '''
         if request.method == 'POST':
             data = request.data
             print(data)
@@ -74,6 +75,7 @@ class RestaurantesMethods(APIView):
     @api_view(['GET'])
     @permission_classes([IsAuthenticated])
     def MenusRestaurantesListar(request):
+        ''' Listar los menus de todos los restaurantes '''
         if request.method == 'GET':
             try:
                 controller = MenusController()
@@ -88,6 +90,7 @@ class RestaurantesMethods(APIView):
     @permission_classes([IsAuthenticated])
     def MenusByRestaurante(request):
         if request.method == 'POST':
+            ''' Listar los menus de un restaurante '''
             try:
                 controller = MenusController()
                 data = request.data
@@ -103,10 +106,29 @@ class RestaurantesMethods(APIView):
                 return JsonResponse({'error': f'List menu restaurants error: {str(e)}'})
         else:
             return JsonResponse({'error': 'Method not allowed'})
+
+    @api_view(['POST'])
+    @permission_classes([IsAuthenticated])
+    def InformacionMenu(request):
+        ''' Informacion del menu '''
+        if request.method == 'POST':
+            try:
+                '''tomar el id de la url'''
+                controller = MenusController()
+                data = request.data
+                menuID = data.get('menuID')
+                menuFuncion = controller.InformacionByMenuID(menuID)
+                return JsonResponse({'data': menuFuncion})
+            except Exception as e:
+                return JsonResponse({'error': f'Informacion menu restaurants error: {str(e)}'})
+        else:
+            return JsonResponse({'error': 'Method not allowed'})
+
     @api_view(['POST'])
     @permission_classes([IsAuthenticated])
     def eliminarMenu(request):
         if request.method == 'POST':
+            ''' Eliminar un menu de un restaurante '''
             try:
                 controller = MenusController()
                 data = request.data

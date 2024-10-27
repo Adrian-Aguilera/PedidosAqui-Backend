@@ -34,10 +34,7 @@ class MenusController:
             return f'Error: {str(e)}'
 
     def editarMenuByRestaurante(self, data):
-        '''
-            Para editar el estado de un menú se le tiene que mandar el id del menú y el nuevo estado
-            Usando el serializer se crea el menú y se lo guarda en la base de datos
-        '''
+        '''Editar El menu por el restaurante'''
         try:
             #buscar el menú en la base de datos (la instancia)
             menu = MenuRestaurantes.objects.get(id=data['menuID'])
@@ -82,6 +79,17 @@ class MenusController:
                 "mensaje": "Menu eliminado exitosamente",
                 "titulo": menu.titulo,
             }}
+        except Exception as e:
+            return {'error': {
+                "mensaje": f'{str(e)}',
+            }}
+
+    def InformacionByMenuID(self, menuID):
+        try:
+            menu = MenuRestaurantes.objects.get(id=menuID)
+            serializer = MenuToolsSerializer(menu, many=False)
+            print(serializer.data)
+            return serializer.data
         except Exception as e:
             return {'error': {
                 "mensaje": f'{str(e)}',
