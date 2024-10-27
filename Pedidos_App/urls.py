@@ -8,4 +8,5 @@ urlpatterns = [
     path('actualizar/estado/pedido/', PedidosMethods.actualizarEstadoPedido, name='actualizarEstadoPedido'),
     path('listar/todos/', PedidosMethods.listarPedidos_All, name='listarPedidos_All'),
     path('informacion/pedido/', PedidosMethods.InformacionByPedidoID, name='informacion del pedido'),
+    path('eliminar/pedido/', PedidosMethods.eliminarPedido, name='eliminarPedido'),
 ]

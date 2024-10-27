@@ -74,3 +74,16 @@ class PedidosController:
             return serializer.data
         except Exception as e:
             return f'Error: {str(e)}'
+
+    def EliminarPedidoByRestaurante(self, data):
+        '''Eliminar un pedido'''
+        try:
+            pedido = Pedidos.objects.get(id=data.get('pedidoID'))
+            serializer = PedidosToolsSerializer(pedido)
+            try:
+                pedido.delete()
+                return serializer.data
+            except Exception as e:
+                return {'error': serializer.errors}
+        except Exception as e:
+            return f'Error: {str(e)}'
