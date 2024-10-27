@@ -51,11 +51,9 @@ class PedidosController:
             serializerPedido = PedidosToolsSerializer(pedido, data=data, partial=True)
             if serializerPedido.is_valid():
                 serializerPedido.save()
-                return serializerPedido.data
+                return {'done': serializerPedido.data}
             else:
-                return {'errorSerializer': {
-                    "mensaje": f'{str(serializerPedido.errors)}',
-                }}
+                return {'errorSerializer': serializerPedido.errors}
         except Exception as e:
             return f'Error: {str(e)}'
 
@@ -65,5 +63,14 @@ class PedidosController:
             serializer = PedidosToolsSerializer(self.pedidos, many=True)
             pedidos = serializer.data
             return pedidos
+        except Exception as e:
+            return f'Error: {str(e)}'
+
+    def InformacionByPedidoID(self, data):
+        '''Para obtener la informacion de un pedido'''
+        try:
+            pedido = Pedidos.objects.get(id=data.get('pedidoID'))
+            serializer = PedidosToolsSerializer(pedido)
+            return serializer.data
         except Exception as e:
             return f'Error: {str(e)}'
