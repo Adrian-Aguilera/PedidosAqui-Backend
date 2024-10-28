@@ -78,12 +78,13 @@ class RestaurantesLoginMethod(APIView):
         else:
             return JsonResponse({'error': 'Method not allowed'})
 
-    @api_view(['GET'])
+    @api_view(['POST'])
     @permission_classes([IsAuthenticated])
-    def perfil(request):
-        if request.method == 'GET':
+    def loadperfil(request):
+        if request.method == 'POST':
             try:
-                usuario = RestaurantesUsuarios.objects.get(id=request.user.id)
+                data = request.data
+                usuario = RestaurantesUsuarios.objects.get(id=data.get('usuarioRestauranteID'))
                 serializer = UsuariosRestaurantesSerializerInList(usuario)
                 return JsonResponse({'data': serializer.data})
             except Exception as e:

@@ -183,7 +183,7 @@ class RestaurantesMethods(APIView):
                 return JsonResponse({'error': f'List restaurants by user error: {str(e)}'})
         else:
             return JsonResponse({'error': 'Method not allowed'})
-    
+
     @api_view(['POST'])
     @permission_classes([IsAuthenticated])
     def RestaurantesEditar(request):
