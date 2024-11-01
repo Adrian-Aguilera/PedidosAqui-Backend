@@ -53,7 +53,7 @@ class LoginMethod(APIView):
                 serializer = UsuariosSerializer(data=data)
                 if serializer.is_valid():
                     serializer.save()
-                    return JsonResponse({'data': 'Cuenta creada exitosamente'})
+                    return JsonResponse({'data': 'Cuenta creada'})
                 else:
                     return JsonResponse({'error': 'Error al crear la cuenta'})
             except Exception as e:
