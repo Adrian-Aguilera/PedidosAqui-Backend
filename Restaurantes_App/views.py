@@ -65,6 +65,11 @@ class RestaurantesMethods(APIView):
         if request.method == 'GET':
             try:
                 restaurantes = Restaurantes.objects.all()
+                for restaurante in restaurantes:
+                    if restaurante.imagen == None:
+                        restaurante.imagen = None
+                    else:
+                        restaurante.imagen = f'/restaurantesMethods/api{restaurante.imagen}'
                 serializer = RestaurantesSerializer(restaurantes, many=True)
                 return JsonResponse({'data': serializer.data})
             except Exception as e:
