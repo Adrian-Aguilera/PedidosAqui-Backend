@@ -38,7 +38,12 @@ class MenuRestaurantesSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+class restaurantesToolsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Restaurantes
+        fields = ['id', 'nombre']
 class MenuToolsSerializer(serializers.ModelSerializer):
+    restaurante = restaurantesToolsSerializer()
     class Meta:
         model = MenuRestaurantes
-        fields = ['id', 'restaurante', 'titulo', 'nombre', 'precio', 'fecha', 'status', 'imagen']
+        fields = ['id', 'restaurante', 'titulo', 'nombre', 'precio', 'fecha', 'status', 'imagen', 'descripcion', 'puntaje']
