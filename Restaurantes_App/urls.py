@@ -15,6 +15,7 @@ urlpatterns = [
     path('listar/restaurantes/usuarioRestaurante/', RestaurantesMethods.ListarRestaurantesByUsuarioRestaurante, name='ListarRestaurantesByUsuarioRestaurante'),
     path('editar/restaurante/', RestaurantesMethods.RestaurantesEditar, name='RestaurantesEditar'),
     path('eliminar/restaurante/', RestaurantesMethods.restaurantesEliminar, name='restaurantesEliminar'),
+    path('informacion/restaurante/', RestaurantesMethods.informacionRestaurante, name='informacionRestaurante le pasa el id del restaurante'),
 ]
 
 if settings.DEBUG:

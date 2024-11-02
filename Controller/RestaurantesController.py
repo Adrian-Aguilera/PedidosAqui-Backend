@@ -146,3 +146,10 @@ class RestaurantesController:
         except Exception as e:
             return f'Error: {str(e)}'
 
+    def InformacionRestaurante(self, data):
+        try:
+            restaurante = Restaurantes.objects.get(id=data['restauranteID'])
+            serializerRestaurante = RestaurantesSerializer(restaurante)
+            return serializerRestaurante.data
+        except Exception as e:
+            return f'Error: {str(e)}'
