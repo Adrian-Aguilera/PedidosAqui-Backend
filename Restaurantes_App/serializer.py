@@ -33,6 +33,8 @@ class MenuRestaurantesSerializer(serializers.ModelSerializer):
         instance.nombre = validated_data.get('nombre', instance.nombre)
         instance.precio = validated_data.get('precio', instance.precio)
         instance.fecha = validated_data.get('fecha', instance.fecha)
+        instance.descripcion = validated_data.get('descripcion', instance.descripcion)
+        instance.puntaje = validated_data.get('puntaje', instance.puntaje)
         instance.status = validated_data.get('status', instance.status)
         instance.imagen = validated_data.get('imagen', instance.imagen)
         instance.save()
