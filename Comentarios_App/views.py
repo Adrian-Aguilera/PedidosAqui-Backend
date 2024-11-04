@@ -31,11 +31,14 @@ class ComentariosRestaurantesView(APIView):
 
     @api_view(['GET'])
     @permission_classes([IsAuthenticated])
-    def ComentariosRestaurantesListar(request, id):
+    def ComentariosRestaurantesListar(request, id=None):
         if request.method == 'GET':
             try:
-                comentarios = ComentariosRestaurantes.objects.filter(usuario=id)
-                print(comentarios)
+                if id:
+                    ''' Listar los comentarios de un usuario '''
+                    comentarios = ComentariosRestaurantes.objects.filter(usuario=id)
+                else:
+                    comentarios = ComentariosRestaurantes.objects.all()
                 serializer = ComentariosRestaurantesToolsSerializer(comentarios, many=True)
                 if len(serializer.data) == 0:
                     return JsonResponse({'data': 'Este usuario no tiene comentarios'})
