@@ -62,3 +62,8 @@ class UsuariosSerializerInList(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
+
+class UsuariosSerializerTools(serializers.ModelSerializer):
+    class Meta:
+        model = Usuarios
+        fields = ['id', 'nombre']
