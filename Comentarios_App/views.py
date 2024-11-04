@@ -31,11 +31,14 @@ class ComentariosRestaurantesView(APIView):
 
     @api_view(['GET'])
     @permission_classes([IsAuthenticated])
-    def ComentariosRestaurantesListar(request):
+    def ComentariosRestaurantesListar(request, id):
         if request.method == 'GET':
             try:
-                comentarios = ComentariosRestaurantes.objects.all()
+                comentarios = ComentariosRestaurantes.objects.filter(usuario=id)
+                print(comentarios)
                 serializer = ComentariosRestaurantesToolsSerializer(comentarios, many=True)
+                if len(serializer.data) == 0:
+                    return JsonResponse({'data': 'Este usuario no tiene comentarios'})
                 return JsonResponse({'data': serializer.data})
             except Exception as e:
                 return JsonResponse({'error': f'List comentarios restaurantes error: {str(e)}'})
