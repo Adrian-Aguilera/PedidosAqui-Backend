@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'Restaurantes_App',
     'Pedidos_App',
     'LoginRestaurantes_App',
+    'Comentarios_App',
     'corsheaders',
     'rest_framework',
     'sslserver',
