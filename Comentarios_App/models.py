@@ -14,3 +14,13 @@ class ComentariosRestaurantes(models.Model):
 
     def __str__(self):
         return f"Comentario de {self.usuario.correo} en {self.restaurante.nombre}"
+
+class ComentariosMenus(models.Model):
+    menu = models.ForeignKey(MenuRestaurantes, on_delete=models.CASCADE, null=True)
+    usuario = models.ForeignKey(Usuarios, on_delete=models.CASCADE, null=True)
+    comentario = models.CharField(max_length=255, help_text='Comentario del usuario')
+    fecha = models.DateTimeField(auto_now_add=True)
+    puntaje = models.IntegerField(help_text='Puntaje del comentario', null=True, default=0)
+
+    def __str__(self):
+        return f"Comentario de {self.usuario.correo} en {self.menu.titulo}"
