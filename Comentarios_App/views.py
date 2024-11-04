@@ -68,9 +68,9 @@ class ComentariosMenusView(APIView):
                         "puntaje": serializer.data['puntaje']
                     }})
                 else:
-                    return JsonResponse({'error': 'Error al crear el comentario'})
+                    return JsonResponse({'error': serializer.errors})
             except Exception as e:
-                return JsonResponse({'error': f'Comentarios restaurantes error: {str(e)}'})
+                return JsonResponse({'error': f'Comentarios Menus error: {str(e)}'})
 
     @api_view(['GET'])
     @permission_classes([IsAuthenticated])
@@ -87,6 +87,6 @@ class ComentariosMenusView(APIView):
                     return JsonResponse({'data': 'Este usuario no tiene comentarios'})
                 return JsonResponse({'data': serializer.data})
             except Exception as e:
-                return JsonResponse({'error': f'List comentarios restaurantes error: {str(e)}'})
+                return JsonResponse({'error': f'List comentarios Menus error: {str(e)}'})
         else:
             return JsonResponse({'error': 'Method not allowed'})
