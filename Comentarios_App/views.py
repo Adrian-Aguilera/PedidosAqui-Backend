@@ -79,7 +79,7 @@ class ComentariosMenusView(APIView):
             try:
                 if id:
                     ''' Listar los comentarios de un usuario '''
-                    comentariosOfMenu = ComentariosMenus.objects.filter(restaurante=id)
+                    comentariosOfMenu = ComentariosMenus.objects.filter(menu=id)
                 else:
                     comentariosOfMenu = ComentariosMenus.objects.all()
                 serializer = ComentariosMenusToolsSerializer(comentariosOfMenu, many=True)
