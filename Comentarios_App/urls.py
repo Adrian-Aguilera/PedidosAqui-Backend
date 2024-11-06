@@ -8,4 +8,5 @@ urlpatterns = [
 
     path('comentarios/menu-crear/', ComentariosMenusView.ComentariosMenusCrear, name='comentarios-menu-crear'),
     path('comentarios/menu-listar/<int:id>', ComentariosMenusView.ComentariosMenusListar, name='comentarios-menu-listar'),
+    path('comentarios/menu-listar/', ComentariosMenusView.ComentariosMenusListar, name='comentarios-menu-listar'),
 ]
