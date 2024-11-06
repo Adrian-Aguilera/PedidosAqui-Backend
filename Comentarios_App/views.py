@@ -36,12 +36,12 @@ class ComentariosRestaurantesView(APIView):
             try:
                 if id:
                     ''' Listar los comentarios de un usuario '''
-                    comentarios = ComentariosRestaurantes.objects.filter(usuario=id)
+                    comentarios = ComentariosRestaurantes.objects.filter(restaurante=id)
                 else:
                     comentarios = ComentariosRestaurantes.objects.all()
                 serializer = ComentariosRestaurantesToolsSerializer(comentarios, many=True)
                 if len(serializer.data) == 0:
-                    return JsonResponse({'data': 'Este usuario no tiene comentarios'})
+                    return JsonResponse({'data': None})
                 return JsonResponse({'data': serializer.data})
             except Exception as e:
                 return JsonResponse({'error': f'List comentarios restaurantes error: {str(e)}'})
@@ -79,12 +79,12 @@ class ComentariosMenusView(APIView):
             try:
                 if id:
                     ''' Listar los comentarios de un usuario '''
-                    comentariosOfMenu = ComentariosMenus.objects.filter(usuario=id)
+                    comentariosOfMenu = ComentariosMenus.objects.filter(restaurante=id)
                 else:
                     comentariosOfMenu = ComentariosMenus.objects.all()
                 serializer = ComentariosMenusToolsSerializer(comentariosOfMenu, many=True)
                 if len(serializer.data) == 0:
-                    return JsonResponse({'data': 'Este usuario no tiene comentarios'})
+                    return JsonResponse({'data': None})
                 return JsonResponse({'data': serializer.data})
             except Exception as e:
                 return JsonResponse({'error': f'List comentarios Menus error: {str(e)}'})
