@@ -16,6 +16,8 @@ urlpatterns = [
     path('editar/restaurante/', RestaurantesMethods.RestaurantesEditar, name='RestaurantesEditar'),
     path('eliminar/restaurante/', RestaurantesMethods.restaurantesEliminar, name='restaurantesEliminar'),
     path('informacion/restaurante/', RestaurantesMethods.informacionRestaurante, name='informacionRestaurante le pasa el id del restaurante'),
+
+    path('buscar/restaurante/', RestaurantesMethods.buscarRestaurante, name='buscarRestaurante'),
 ]
 
 if settings.DEBUG:

@@ -2,6 +2,7 @@ from Restaurantes_App.models import Restaurantes, MenuRestaurantes
 from Restaurantes_App.serializer import RestaurantesSerializer, MenuRestaurantesSerializer, MenuToolsSerializer
 from Pedidos_App.models import Pedidos
 from LoginRestaurantes_App.models import RestaurantesUsuarios
+from django.db.models import Q
 class MenusController:
     def __init__(self):
         self.restaurantes = Restaurantes.objects.all()
@@ -153,3 +154,20 @@ class RestaurantesController:
             return serializerRestaurante.data
         except Exception as e:
             return f'Error: {str(e)}'
+
+    def buscarRestaurante(self, data):
+        try:
+            filtros = Q()
+            if 'nombre' in data:
+                filtros &= Q(nombre__icontains=data['nombre'])
+            if 'tipoCocina' in data:
+                filtros &= Q(tipoCocina__icontains=data['tipoCocina'])
+
+            if 'ubicacion' in data:
+                filtros &= Q(ubicacion__icontains=data['ubicacion'])
+            restaurantes = Restaurantes.objects.filter(filtros)
+
+            serializerRestaurante = RestaurantesSerializer(restaurantes, many=True)
+            return {'success': True, 'data': serializerRestaurante.data}
+        except Exception as e:
+            return {'success': False, 'error': f'{str(e)}'}
