@@ -8,7 +8,9 @@ from .models import Pedidos
 from Pedidos_App.models import Restaurantes
 import json
 from Controller.PedidosController import PedidosController
-
+import random
+from datetime import timedelta
+from django.utils import timezone
 
 class PedidosMethods(APIView):
     #json que se manda al crear un pedido
@@ -17,7 +19,6 @@ class PedidosMethods(APIView):
         "restaurante": 1,
         "cliente": 1,
         "menu": [1, 2, 3],
-        "tiempoEstimado": "2022-01-01T00:00:00",
         "status": "pendiente",
         "ubicacionEntrega": "entrega"
     }
@@ -27,8 +28,13 @@ class PedidosMethods(APIView):
     def pedidosCrear(request):
         '''para crear un pedido se le tiene que mandar un lista con los ids de los menús'''
         if request.method == 'POST':
-            data = json.loads(request.body)
+            data = request.data
             try:
+                #creaando el tiempo estimado para el pedido
+                cantidad_menus = len(data.get('menu', []))
+                tiempo_estimado_minutos = random.randint(5, 10) * cantidad_menus
+                tiempo_estimado = timezone.now() + timedelta(minutes=tiempo_estimado_minutos)
+                data['tiempoEstimado'] = tiempo_estimado
                 serializer = PedidosSerializer(data=data)
                 if serializer.is_valid():
                     serializer.save()
@@ -52,15 +58,14 @@ class PedidosMethods(APIView):
             return JsonResponse({'error': 'Method not allowed'})
 
 
-    @api_view(['POST'])
+    @api_view(['GET'])
     @permission_classes([IsAuthenticated])
-    def listarPedidosByUsuario(request):
+    def listarPedidosByUsuario(request, id=None):
         '''para listar todos los pedidos de un usuario se le tiene que mandar el id del usuario'''
-        if request.method == 'POST':
-            data = request.data
+        if request.method == 'GET':
             try:
                 controller = PedidosController()
-                pedidos = controller.PedidosByUsuario(data.get('usuarioID'))
+                pedidos = controller.PedidosByUsuario(id)
                 return JsonResponse({'data': {
                     "pedidos": pedidos,
                 }})
@@ -89,7 +94,7 @@ class PedidosMethods(APIView):
     @api_view(['POST'])
     @permission_classes([IsAuthenticated])
     def actualizarEstadoPedido(request):
-        '''Actualizar el estado de un pedido'''
+        '''Actualizar el estado de un pedido ESTO SOLO DESDE EL DASHBOARD DE RESTAURANTES'''
         if request.method == 'POST':
             try:
                 controller = PedidosController()

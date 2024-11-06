@@ -13,7 +13,7 @@ class Pedidos(models.Model):
     restaurante = models.ForeignKey(Restaurantes, on_delete=models.CASCADE)
     cliente = models.ForeignKey(Usuarios, on_delete=models.CASCADE)
     menus = models.ManyToManyField(MenuRestaurantes, related_name='pedidos', help_text='Cantidad de pedidos que quiere el cliente')
-    tiempoEstimado = models.DateTimeField(help_text='Tiempo estimado para el pedido que quiere el cliente', null=True)
+    tiempoEstimado = models.DateTimeField(help_text='Tiempo estimado para el pedido que quiere el cliente', null=True, blank=True)
     status = models.CharField(max_length=255, choices=ESTADO_OPCIONES, help_text='Estado del pedido', null=True, default='pendiente')
     ubicacionEntrega = models.CharField(max_length=255, help_text='Ubicación de entrega del pedido', null=True)
 
