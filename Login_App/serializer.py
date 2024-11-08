@@ -4,7 +4,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth import authenticate
 
 '''Crear serializers para los usuarios'''
-class UsuariosSerializerAutenticado(TokenObtainPairSerializer):
+class UsuariosClienteSerializerAutenticado(TokenObtainPairSerializer):
     correo = serializers.CharField(required=True)
 
     def validate(self, attrs):
@@ -14,6 +14,7 @@ class UsuariosSerializerAutenticado(TokenObtainPairSerializer):
         if correo and password:
             try:
                 usuarioLogeado = authenticate(request=None, correo=correo, password=password)
+                print(f'''cliente :  {usuarioLogeado}''')
                 if usuarioLogeado is not None:
                     nuevoToken = self.get_token(usuarioLogeado)
                     '''Retonar los tokens'''
@@ -23,6 +24,8 @@ class UsuariosSerializerAutenticado(TokenObtainPairSerializer):
                         'correo': usuarioLogeado.correo,
                         'idUsuario': usuarioLogeado.id,
                         'nombre': usuarioLogeado.nombre,
+                        'isCliente': usuarioLogeado.isCliente,
+                        'isRestaurante': usuarioLogeado.isRestaurante,
                     }
                 else:
                     print("no usuario")

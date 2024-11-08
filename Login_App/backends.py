@@ -5,6 +5,8 @@ class UsuariosBackend(BaseBackend):
     def authenticate(self, request, correo=None, password=None):
         try:
             user = Usuarios.objects.get(correo=correo)
+            print(f'''usuario :  {type(user)}''')
+            #añadir un nuevo campo que indique si es cliente o restaurante
         except Usuarios.DoesNotExist:
             return None
 

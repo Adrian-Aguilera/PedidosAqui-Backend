@@ -27,6 +27,8 @@ class Usuarios(AbstractBaseUser):
     correo = models.EmailField(max_length=255, unique=True, help_text='Correo electrónico del usuario')
     apellido = models.CharField(max_length=255, help_text='Apellido del usuario')
     password = models.CharField(max_length=255, help_text='Contraseña del usuario')
+    isCliente = models.BooleanField(default=True, null=False)
+    isRestaurante = models.BooleanField(default=False, null=False)
     #propiedades heredadas de django
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)

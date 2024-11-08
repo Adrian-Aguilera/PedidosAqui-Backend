@@ -13,16 +13,18 @@ class UsuariosRestaurantesSerializerAutenticado(TokenObtainPairSerializer):
 
         if correo and password:
             try:
-                usuarioLogeado = authenticate(request=None, correo=correo, password=password)
-                if usuarioLogeado is not None:
-                    nuevoToken = self.get_token(usuarioLogeado)
+                restauranteLogeado = authenticate(request=None, correo=correo, password=password)
+                if restauranteLogeado is not None:
+                    nuevoToken = self.get_token(restauranteLogeado)
                     '''Retonar los tokens'''
                     return {
                         'refresh': str(nuevoToken),
                         'access': str(nuevoToken.access_token),
-                        'correo': usuarioLogeado.correo,
-                        'restauranteID': usuarioLogeado.id,
-                        'nombre': usuarioLogeado.nombre,
+                        'correo': restauranteLogeado.correo,
+                        'restauranteID': restauranteLogeado.id,
+                        'nombre': restauranteLogeado.nombre,
+                        'isCliente': restauranteLogeado.isCliente,
+                        'isRestaurante': restauranteLogeado.isRestaurante,
                     }
                 else:
                     print("no usuario")

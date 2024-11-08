@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from asgiref.sync import sync_to_async, async_to_sync
 import json
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .serializer import UsuariosSerializerAutenticado, UsuariosSerializer, UsuariosSerializerInList
+from .serializer import UsuariosClienteSerializerAutenticado, UsuariosSerializer, UsuariosSerializerInList
 from .models import Usuarios
 load_dotenv(override=True)
 
@@ -31,14 +31,16 @@ class LoginMethod(APIView):
             correo = data['correo']
             password = data['password']
             try:
-                serializer = UsuariosSerializerAutenticado()
+                serializer = UsuariosClienteSerializerAutenticado()
                 tokensObtenidos = serializer.validate(attrs={'correo': correo, 'password': password})
                 return JsonResponse({"data":{
                     "refresh": tokensObtenidos['refresh'],
                     "access": tokensObtenidos['access'],
                     "correo": tokensObtenidos['correo'],
                     "usuarioID": tokensObtenidos['idUsuario'],
-                    "nombre": tokensObtenidos['nombre']
+                    "nombre": tokensObtenidos['nombre'],
+                    'isCliente': tokensObtenidos['isCliente'],
+                    'isRestaurante': tokensObtenidos['isRestaurante']
                 }})
             except Exception as e:
                 return JsonResponse({'error': f'Login error: {str(e)}'})
@@ -112,5 +114,5 @@ class LoginMethod(APIView):
                 return JsonResponse({'error': f'Create account error: {str(e)}'})
         else:
             return JsonResponse({'error': 'Method not allowed'})
-class PerfilTokenObtainPairView(TokenObtainPairView):
-    serializer_class = UsuariosSerializerAutenticado
+class ClienteTokenObtainPairView(TokenObtainPairView):
+    serializer_class = UsuariosClienteSerializerAutenticado

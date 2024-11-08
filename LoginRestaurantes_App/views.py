@@ -5,7 +5,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 from dotenv import load_dotenv
 from asgiref.sync import sync_to_async, async_to_sync
-import json
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializer import UsuariosRestaurantesSerializerAutenticado, UsuariosRestaurantesSerializer, UsuariosRestaurantesSerializerInList
 from .models import RestaurantesUsuarios
@@ -44,7 +43,9 @@ class RestaurantesLoginMethod(APIView):
                     "access": tokensObtenidos['access'],
                     "correo": tokensObtenidos['correo'],
                     "restauranteID": tokensObtenidos['restauranteID'],
-                    "nombre": tokensObtenidos['nombre']
+                    "nombre": tokensObtenidos['nombre'],
+                    'isCliente': tokensObtenidos['isCliente'],
+                    'isRestaurante': tokensObtenidos['isRestaurante']
                 }})
             except Exception as e:
                 return JsonResponse({'error': f'Login error: {str(e)}'})
@@ -131,3 +132,6 @@ class RestaurantesLoginMethod(APIView):
                 return JsonResponse({'error': f'List users error: {str(e)}'})
         else:
             return JsonResponse({'error': 'Method not allowed'})
+
+class RestaurantesTokenObtainPairView(TokenObtainPairView):
+    serializer_class = UsuariosRestaurantesSerializerAutenticado
