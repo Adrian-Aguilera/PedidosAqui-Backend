@@ -139,13 +139,27 @@ class PedidosMethods(APIView):
 
     @api_view(['POST'])
     @permission_classes([IsAuthenticated])
-    def eliminarPedido(request):
+    def EliminarPedidoByRestaurante(request):
         '''Eliminar un pedido'''
         if request.method == 'POST':
             try:
                 controller = PedidosController()
                 data = request.data
                 pedidoFuncion = controller.EliminarPedidoByRestaurante(data)
+                return JsonResponse({'data': pedidoFuncion})
+            except Exception as e:
+                return JsonResponse({'error': f'Eliminar pedido error: {str(e)}'})
+        else:
+            return JsonResponse({'error': 'Method not allowed'})
+
+    @api_view(['DELETE'])
+    @permission_classes([IsAuthenticated])
+    def eliminarPedidoByCliente(request, id=None):
+        '''Eliminar un pedido'''
+        if request.method == 'DELETE':
+            try:
+                controller = PedidosController()
+                pedidoFuncion = controller.EliminarPedidoByCliente(id)
                 return JsonResponse({'data': pedidoFuncion})
             except Exception as e:
                 return JsonResponse({'error': f'Eliminar pedido error: {str(e)}'})
