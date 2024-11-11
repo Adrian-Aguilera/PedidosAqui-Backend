@@ -62,10 +62,10 @@ class LoginMethod(APIView):
                 return JsonResponse({'error': f'Create account error: {str(e)}'})
         else:
             return JsonResponse({'error': 'Method not allowed'})
-    @api_view(['POST'])
+    @api_view(['GET'])
     @permission_classes([IsAuthenticated])
-    def perfil(request):
-        if request.method == 'POST':
+    def perfil(request, id=None):
+        if request.method == 'GET':
             try:
                 usuario = Usuarios.objects.get(id=request.user.id)
                 serializer = UsuariosSerializerInList(usuario)
