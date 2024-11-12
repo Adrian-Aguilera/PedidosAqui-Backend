@@ -109,7 +109,7 @@ class LoginMethod(APIView):
                         "apellido": serializer.validated_data.get('apellido', usuario.apellido),
                     }})
                 else:
-                    return JsonResponse({'error': 'Error al modificar el usuario'})
+                    return JsonResponse({'error': serializer.errors})
             except Exception as e:
                 return JsonResponse({'error': f'Create account error: {str(e)}'})
         else:
