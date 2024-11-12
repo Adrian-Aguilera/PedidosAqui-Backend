@@ -221,14 +221,6 @@ class RestaurantesMethods(APIView):
     @api_view(['POST'])
     @permission_classes([IsAuthenticated])
     def buscarRestaurante(request):
-        '''
-        {
-            "nombre": "Restaurante Italiano", //cada capo es opcional, si no se le proporciona todo correcto se le toma
-            "tipoCocina": "Italiana", // como restautante no encontroado, aunque uno de los filtros sea correcto
-            "ubicacion": "Ciudad de México"
-        }
-
-        '''
         if request.method == 'POST':
             try:
                 data = request.data
@@ -237,8 +229,18 @@ class RestaurantesMethods(APIView):
                 if not restaurantes['success']:
                     return JsonResponse({'error': restaurantes['error']})
                 elif len(restaurantes['data']) == 0:
-                    return JsonResponse({'data': 'no se encontro ningun restaurnte'})
+                    return JsonResponse({'data': 'No se encontró ningún restaurante'})
+
+                # Ajuste en el bucle para asegurar el acceso correcto a los datos
+                for restaurante in restaurantes['data']:
+                    restaurante['imagen'] = (
+                        None if restaurante['imagen'] is None 
+                        else f'/restaurantesMethods/api{restaurante["imagen"]}'
+                    )
+
+                # Envía la respuesta correcta
                 return JsonResponse({'data': restaurantes['data']}, safe=False)
+            
             except Exception as e:
                 return JsonResponse({'error': f'Buscar restaurante error: {str(e)}'})
         else:

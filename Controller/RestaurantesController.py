@@ -157,17 +157,35 @@ class RestaurantesController:
 
     def buscarRestaurante(self, data):
         try:
+            # Mostrar datos recibidos para depuración
+            print("Datos recibidos:", data)
+
+            # Construir filtros dinámicos
             filtros = Q()
-            if 'nombre' in data:
+
+            if 'nombre' in data and data['nombre']:
                 filtros &= Q(nombre__icontains=data['nombre'])
-            if 'tipoCocina' in data:
+                print("Filtro por nombre:", data['nombre'])
+            
+            if 'tipoCocina' in data and data['tipoCocina']:
                 filtros &= Q(tipoCocina__icontains=data['tipoCocina'])
+                print("Filtro por tipo de cocina:", data['tipoCocina'])  # Verificar valor enviado
 
-            if 'ubicacion' in data:
+            if 'ubicacion' in data and data['ubicacion']:
                 filtros &= Q(ubicacion__icontains=data['ubicacion'])
-            restaurantes = Restaurantes.objects.filter(filtros)
+                print("Filtro por ubicación:", data['ubicacion'])
 
+            # Realizar la consulta
+            restaurantes = Restaurantes.objects.filter(filtros)
+            print("Restaurantes encontrados con filtros aplicados:", restaurantes)  # Verificar si devuelve resultados
+
+            # Serializar resultados
             serializerRestaurante = RestaurantesSerializer(restaurantes, many=True)
-            return {'success': True, 'data': serializerRestaurante.data}
+
+            if serializerRestaurante.data:
+                return {'success': True, 'data': serializerRestaurante.data}
+            else:
+                return {'success': False, 'data': [], 'error': 'No se encontraron restaurantes con los filtros proporcionados'}
+            
         except Exception as e:
-            return {'success': False, 'error': f'{str(e)}'}
+            return {'success': False, 'error': f'Error en la búsqueda: {str(e)}'}
