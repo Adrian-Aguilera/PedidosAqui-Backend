@@ -19,7 +19,7 @@ class MenuRestaurantes(models.Model):
     restaurante = models.ForeignKey(Restaurantes, on_delete=models.CASCADE)
     titulo = models.CharField(max_length=255, help_text='Titulo del menu')
     nombre = models.CharField(max_length=255, help_text='Nombre del menu')
-    precio = models.IntegerField(help_text='Precio del menu')
+    precio = models.FloatField(help_text='Precio del menu')
     descripcion = models.CharField(max_length=255, help_text='Descripción del menu', null=True)
     puntaje = models.IntegerField(help_text='Puntaje del menu', null=True)
     fecha = models.CharField(max_length=255, help_text='Fecha del menu')
