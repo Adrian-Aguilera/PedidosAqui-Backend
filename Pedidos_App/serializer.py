@@ -1,7 +1,7 @@
 from .models import Restaurantes, Pedidos, MenuRestaurantes
 from rest_framework import serializers
 from Login_App.models import Usuarios
-
+from Restaurantes_App.serializer import restaurantesToolsSerializer
 class MenuFormaterSerializer(serializers.ModelSerializer):
     class Meta:
         model = MenuRestaurantes
@@ -38,6 +38,7 @@ class PedidosSerializer(serializers.ModelSerializer):
 class PedidosToolsSerializer(serializers.ModelSerializer):
     menus = MenuFormaterSerializer(many=True)
     cliente = ClienteFormaterSerializer()
+    restaurante = restaurantesToolsSerializer()
     class Meta:
         model = Pedidos
         fields = ['id','restaurante', 'cliente', 'menus', 'tiempoEstimado', 'status', 'ubicacionEntrega']

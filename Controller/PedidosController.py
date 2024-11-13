@@ -13,7 +13,7 @@ class PedidosController:
             try:
                 usuario = Usuarios.objects.get(id=usuario)
                 pedidos = self.pedidos.filter(cliente=usuario)
-                #pasar por el serializer y devolver los pedidos
+                #pasar por el serializer y devolver los pedidos 
                 serializer = PedidosToolsSerializer(pedidos, many=True)
                 return serializer.data
             except Exception as e:
